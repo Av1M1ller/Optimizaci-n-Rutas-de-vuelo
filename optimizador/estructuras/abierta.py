@@ -1,88 +1,63 @@
-# la lista abierta contiene los nodos que aún no han sido expandidos.
-# Es una cola creada con listas enlazadas:
-# por qué una cola?: porque mantiene la propiedad de "heap", 
-# que hace que el nodo de menor coste esté al inicio de la cola 
-#(con una lista habría que buscarlo lo cual sería O(n))
-
-# ----------------------------------
-
-# por qué con listas enlazadas?, porque tendremos que insertar 
-#nuevos nodos al inicio de la lista, lo cuál haría que hubiese que desplazar 
-#el resto de elementos n posicones a la derecha O(n)
 
 
-#------------
-
-# por qué doblemente enlazada?: porque así las operaciones 
-
-# -----------------
-class Dnode:
-    def __init__(self, e):
-        self.elemento = e
-        self.next = None
-        self.prev = None
+# consula del elemento mínimo = o(1) vs o(logn) de un ABB
 
 
-class Dlist:
+class MinHeap(): # TODO: Implementar min_heap
     def __init__(self):
-        self.head = None
-        self.tail = None
-        self.size = 0
+        self.heap = []
 
-    def append(self, new_node):
-        # con la lista doblemente enlazada nos ahorramos tener que recorrer toda la lista hasta llegar al ultimo nodo, ya que ya lo tenemos guardado como tail
-        self.tail.next = new_node   
-        self.new_node.prev = self.tail
-        self.size += 1
+    def insertar(self, objeto): # O(log(n))?
+        self.heap.append(objeto)
+        self._subir(len(self.heap) - 1)
 
-    def append_left(self, new_node):
-        self.head.prev = new_node
-        new_node.next = self.head 
-        self.head = new_node
+    def extraer_minimo(self): # O(log(n))
+        if not self.heap:
+            return None
 
-        self.size += 1
+        minimo = self.heap[0]
+        ultimo = self.heap.pop()
 
-    def pop(self) -> Dnode: #FIXME: Robustez
-        tail = self.tail #WARNING: legal?
+        if self.heap:
+            self.heap[0] = ultimo
+            self._bajar(0)
 
-        nuevo_ultimo = self.tail.prev
-        nuevo_ultimo.next = None
-        self.tail.prev = None
-        self.tail = nuevo_ultimo
+        return minimo
 
-        self.size -= 1
+    def _subir(self, i):
+        while i > 0:
+            padre = (i - 1) // 2
 
-        return tail #WARNING: legal?
+            if self.heap[i].costes < self.heap[padre].costes:
+                self.heap[i], self.heap[padre] = self.heap[padre], self.heap[i]
+                i = padre
+            else:
+                break
 
-    def pop_left(self)->Dnode: #FIXME: Robustez
-        head = self.elements.head
-        nuevo_head = head.next  
-        nuevo_head.prev = None
-        head.next = None
-        self.elements.head = nuevo_head
+    def _bajar(self, i):
+        n = len(self.heap)
 
-        self.size -=1
+        while True:
+            menor = i
+            izq = 2 * i + 1
+            der = 2 * i + 2
 
-        
+            if izq < n and self.heap[izq].costes < self.heap[menor].costes:
+                menor = izq
+
+            if der < n and self.heap[der].costes < self.heap[menor].costes:
+                menor = der
+
+            if menor != i:
+                self.heap[i], self.heap[menor] = self.heap[menor], self.heap[i]
+                i = menor
+            else:
+                break
+
+    def esta_vacio(self):
+        return len(self.heap) == 0
+
+    def __len__(self):
+        return len(self.heap)
 
 
-class lista_abierta:
-    def __init__(self):
-        self.elements = Dlist()
-
-    def enqueue(self, new_node)->None:
-        self.elements.end_insert(new_node)
-
-    def dequeue(self)-> Dnode:
-        eliminado = self.elements.end_pop()
-        return eliminado
-
-    def front(self):
-        return self.elements.head
-
-    def is_empty(self):
-        pass
-        
-
-    def size(self):
-        pass
