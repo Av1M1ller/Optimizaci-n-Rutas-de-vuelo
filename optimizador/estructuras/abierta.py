@@ -1,5 +1,5 @@
 
-
+from estructuras.abierta import Nodo
 # consula del elemento mínimo = o(1) vs o(logn) de un ABB
 
 
@@ -11,7 +11,7 @@ class MinHeap(): # TODO: Implementar min_heap
         self.heap.append(objeto)
         self._subir(len(self.heap) - 1)
 
-    def extraer_minimo(self): # O(log(n))
+    def extraer_minimo(self) -> Nodo: # O(log(n))
         if not self.heap:
             return None
 
