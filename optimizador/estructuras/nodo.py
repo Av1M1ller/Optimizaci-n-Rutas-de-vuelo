@@ -1,6 +1,7 @@
 import pandas as pd
 from dataclasses import dataclass
 
+
 @dataclass
 class Nodo:   
 
@@ -12,14 +13,14 @@ class Nodo:
         self.edges = pd.read_csv("dataframes/edges.csv") # FIXME: atributo de clase (atributo que comporten todos los objetos) para evitar tener que cargar el dataframe varias veces (muy costoso)
 
         self.IATA = IATA
-        self.destinos = self.get_destinos() # pdSeries (una "lista") lista de objetos destino -> diccionario con claves como nombres de los aeropuertos y valores que son el coste: (codigo_aeropuerto_destino, distancia haversine)
+        self.destinos = self.get_destinos() # lista ponderada pdSeries (una "lista") lista de objetos destino -> diccionario con claves como nombres de los aeropuertos y valores que son el coste: (codigo_aeropuerto_destino, distancia haversine)
         
         self.coste_total = self.obtener_coste_total() 
         self.padre = self.obtener_padre() # debería ser de una clase padre?
 
 
-    def get_destinos(self)->pd.Series:
-        return self.edges.loc([self.edges["origin"] == self.IATA], "destination")
+    def get_destinos(self)-> pd.Series:
+        return self.edges.loc[[self.edges["origin"] == self.IATA], "destination"] #TODO: cambiar lista de strs [IATA, IATA, IATA] por lista de nodos
 
     def obtener_coste_total(self) -> int:
         return self._get_heuristica() + self._get_coste()
