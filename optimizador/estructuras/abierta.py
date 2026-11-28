@@ -11,6 +11,7 @@ class MinHeap(): # TODO: Implementar min_heap
         self.heap.append(objeto)
         self._subir(len(self.heap) - 1)
 
+
     def extraer_minimo(self) -> Nodo: # O(log(n))
         if not self.heap:
             return None
@@ -24,15 +25,15 @@ class MinHeap(): # TODO: Implementar min_heap
 
         return minimo
 
+
     def _subir(self, i):
         while i > 0:
-            padre = (i - 1) // 2
+            padre = (i - 1) // 2 
 
             if self.heap[i].costes < self.heap[padre].costes:
                 self.heap[i], self.heap[padre] = self.heap[padre], self.heap[i]
                 i = padre
-            else:
-                break
+
 
     def _bajar(self, i):
         n = len(self.heap)

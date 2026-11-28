@@ -149,6 +149,9 @@ class TablaHash():
         self.size = 0   # número de elementos en cada bucket
         self.table = [None] * self.capacity
 
+    def show(self):
+        print(self.table)
+        
     def hash_function(self, elem):
         return elem % self.capacity
 
@@ -178,8 +181,6 @@ class TablaHash():
 
         else:
             print("What?, ha ocurrido otra cosa")
-
-        
 
 
     def delete(self, elem):

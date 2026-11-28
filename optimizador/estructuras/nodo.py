@@ -10,7 +10,7 @@ class Nodo:
 
     def __init__(self, IATA):
 
-        self.edges = pd.read_csv("dataframes/edges.csv") # FIXME: atributo de clase (atributo que comporten todos los objetos) para evitar tener que cargar el dataframe varias veces (muy costoso)
+        # self.edges = pd.read_csv("dataframes/edges.csv") # FIXME: atributo de clase (atributo que comporten todos los objetos) para evitar tener que cargar el dataframe varias veces (muy costoso)
 
         self.IATA = IATA
         self.destinos = self.get_destinos() # lista ponderada pdSeries (una "lista") lista de objetos destino -> diccionario con claves como nombres de los aeropuertos y valores que son el coste: (codigo_aeropuerto_destino, distancia haversine)

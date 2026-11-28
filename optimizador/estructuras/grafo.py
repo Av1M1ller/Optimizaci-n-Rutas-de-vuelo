@@ -7,7 +7,7 @@ class AdjacentVertex:
 
 
 class Graph:
-    def __init__(self, vertices: list, directed: bool): # vertices = ["A", "B", "C", "D", "E"]
+    def __init__(self, vertices: list, directed: bool): # vertices = ["MAD", "PAR", "BER", "XPL", "ACL"]
         self._vertices = {}
         for v in vertices:
             self._vertices[v] = []
@@ -15,7 +15,9 @@ class Graph:
         self._directed = directed
 
     def add_vertex(self, vertices):
-        pass
+        for vertex in vertices:
+            self._vertices[vertex] = None
+
     
     def add_edge(self, start, end, weight: int = 1):
         if start not in self._vertices.keys() or end not in self._vertices.keys():
@@ -26,7 +28,8 @@ class Graph:
         if not self._directed:
             self._vertices[end].append(AdjacentVertex(start, weight))
 
-    def exist_edge(self, start, end):
+    def exist_edge(self, start: str, end: str): #start = (vértice1) ---- end = (vértice2) 
+
         for vertice in self._vertices[start]:
             if vertice.vertex == end:
                 return vertice.weight
@@ -44,30 +47,19 @@ class Graph:
 
         return lista_vertices_conexiones
 
-#Creo que inutil
-    # def get_origins(self, vertex):
-    #     origins = []
 
-    #     for v in self._vertices.keys():
-    #         for adj in self._vertices[v]:
-    #             if adj.vertex == vertex:
-    #                 origins.append(adj.vertex)
-    #     return origins
+    def get_origins(self, vertex):
+        origins = []
+
+        for v in self._vertices.keys():
+            for adj in self._vertices[v]:
+                if adj.vertex == vertex:
+                    origins.append(adj.vertex)
+        return origins
     
-    def crear_grafo(self):        
-        #1 Rellenar self._vertices leyendo vertices.csv
-        with open("vertices.csv", mode="r", encoding="utf-8", newline="") as f:
-            for fila in csv.DictReader(f):
-                self._vertices[fila["acronym"]] = []
 
-        #2 Rellenar las aristas leyendo edges.csv (sin bucles ni vuelos duplicados)
-        with open("edges,csv", mode="r", encoding="utf-8", newline="") as f:
-            for fila in csv.DictReader(f):
-                origen = fila["origin"]
-                destino = fila["destination"]
-                distancia = float(fila["haversine_km"])
 
-                # Evitamos bucles a sí mismo y aristas repetidas del multigrafo
-                if origen != destino and self.exist_edge(origen, destino) == 0:
-                    self.add_edge(origen, destino, distancia)
+
+
+
         
